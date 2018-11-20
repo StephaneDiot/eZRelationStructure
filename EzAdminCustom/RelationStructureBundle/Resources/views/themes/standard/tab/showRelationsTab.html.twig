@@ -1,0 +1,64 @@
+{% trans_default_domain 'locationview' %}
+
+<link href="{{ asset('bundles/ezadmincustomrelationstructure/css/structureRelationsTab.css') }}"  rel="stylesheet" />
+
+<section>
+    {% include '@ezdesign/parts/table_header.html.twig' with { headerText: 'Structure et Relations' } %}
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Niveau 1</th>
+            <th>Niveau 2</th>
+            <th>Niveau 3</th>
+            <th>Niveau 4</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td colspan="4">
+                    <div class="structure-relation-tab">
+                        {% if relations is empty %}
+                            <p class="ez-table-no-content">
+                                Aucune relation.
+                            </p>
+                        {% else %}
+                            {% for relation in relations %}
+                                {% set destination = relation.relation.destinationContentInfo %}
+                                <ul>
+                                    <li><a href="{{ path('_ezpublishLocation', { 'locationId': destination.mainLocationId }) }}">{{ destination.name }} ({{ contentTypes[destination.contentTypeId].name }})</a></li>
+                                    {% if relation.destinationRelationRelations %}
+                                        <ul>
+                                            {% for secondLevelRelation in relation.destinationRelationRelations %}
+                                                {% set destination = secondLevelRelation.relation.destinationContentInfo %}
+                                                <a href="{{ path('_ezpublishLocation', { 'locationId': destination.mainLocationId }) }}">{{ destination.name }} ({{ contentTypes[destination.contentTypeId].name }})</a>
+                                                {% if secondLevelRelation.destinationRelationRelations %}
+                                                    <ul>
+                                                        {% for thirdLevelRelation in secondLevelRelation.destinationRelationRelations %}
+                                                            {% set destination = thirdLevelRelation.relation.destinationContentInfo %}
+                                                            <li><a href="{{ path('_ezpublishLocation', { 'locationId': destination.mainLocationId }) }}">{{ destination.name }} ({{ contentTypes[destination.contentTypeId].name }})</a></li>
+                                                            {% if relation.destinationRelationRelations %}
+                                                                <ul>
+                                                                    {% for fourthLevelRelation in thirdLevelRelation.destinationRelationRelations %}
+                                                                        {% set destination = fourthLevelRelation.relation.destinationContentInfo %}
+                                                                        <li><a href="{{ path('_ezpublishLocation', { 'locationId': destination.mainLocationId }) }}">{{ destination.name }} ({{ contentTypes[destination.contentTypeId].name }})</a></li>
+                                                                    {% endfor %}
+                                                                </ul>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </ul>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </ul>
+
+                                    {% endif %}
+
+                                </ul>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>

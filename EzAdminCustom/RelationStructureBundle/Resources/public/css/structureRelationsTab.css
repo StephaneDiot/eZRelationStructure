@@ -1,0 +1,27 @@
+.structure-relation-tab ul ul{
+    margin-left: -1em;
+    padding-inline-start: 19em;
+}
+
+.structure-relation-tab ul {
+    list-style-type: none;
+}
+
+.structure-relation-tab ul ul a::before  {
+    content: "↳ ";
+    font-size: larger;
+}
+
+.structure-relation-tab a {
+    margin-left: -2em;
+    font-size: larger;
+}
+
+.structure-relation-tab ul {
+    padding-bottom: 1em;
+    border-bottom: 1px solid #a8c8d5;
+}
+
+.structure-relation-tab ul ul {
+    border: none;
+}
